@@ -1,0 +1,14 @@
+diff --git a/meson.build b/meson.build
+index 8683b5e..5228580 100644
+--- a/meson.build
++++ b/meson.build
+@@ -91,7 +91,7 @@ subdir('src/libbluechi')
+ subdir('config')
+ 
+ # selinux
+-subdir('selinux')
++# subdir('selinux')
+ 
+ # build each binary
+ subdir('src/manager')
+

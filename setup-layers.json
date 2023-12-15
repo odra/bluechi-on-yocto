@@ -1,0 +1,19 @@
+{
+    "sources": {
+        "poky": {
+            "contains_this_file": true,
+            "git-remote": {
+                "branch": "master",
+                "describe": "4.3_M3-823-gabf3e54d11",
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.yoctoproject.org/poky"
+                    }
+                },
+                "rev": "abf3e54d118139e1fcd952a691b77a0c53db6a30"
+            },
+            "path": "poky"
+        }
+    },
+    "version": "1.0"
+}
