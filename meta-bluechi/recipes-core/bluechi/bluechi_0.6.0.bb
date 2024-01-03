@@ -36,4 +36,4 @@ do_install:append() {
     install -D ${WORKDIR}/bluechi-agent.conf ${D}/etc/bluechi/agent.conf.d/00-default.conf
 }
 
-REQUESTED_DISTRO_FEATURES = "systems"
+REQUESTED_DISTRO_FEATURES = "systemd"
