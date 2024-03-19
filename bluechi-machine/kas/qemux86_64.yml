@@ -1,0 +1,46 @@
+header:
+  version: 12
+machine: qemux86-64
+local_conf_header:
+  default: | 
+    INHERIT += "extrausers"
+    # user setup
+    EXTRA_USERS_PARAMS = "usermod -p '' root;"
+    # overlayfs
+    OVERLAYFS_MOUNT_POINT[data] = "/var/lib/containers/storage/overlay"
+    OVERLAYFS_WRITABLE_PATHS[data] = "/var/lib/containers/storage/overlay"
+    # distro config 
+    DISTRO_FEATURES:append = " overlayfs systemd virtualization usrmerge acl xattr pam"
+    # DISTRO_FEATURES_NATIVE:append = " overlayfs systemd"
+    # DISTRO_FEATURES_NATIVESDK:append = " overlayfs systemd"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
+    VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+    IMAGE_INSTALL:append = " podman bluechi"
+repos:
+  poky: 
+    url: https://git.yoctoproject.org/git/poky
+    branch: nanbield
+    path: layers/poky
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    branch: nanbield
+    path: layers/meta-openembedded
+    layers:
+      meta-oe:
+      meta-filesystems:
+      meta-python:
+      meta-networking: 
+  meta-virtualization:
+    url: git://git.yoctoproject.org/meta-virtualization
+    branch: nanbield
+    path: layers/meta-virtualization
+  meta-bluechi:
+    url: https://github.com/eclipse-bluechi/bluechi-on-yocto.git
+    branch: main
+    path: layers/bluechi-on-yocto
+    layers:
+      meta-bluechi:
