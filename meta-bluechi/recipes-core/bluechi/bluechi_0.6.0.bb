@@ -29,7 +29,7 @@ SRC_URI += " file://bluechi-agent.conf \
   ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '', 'file://selinux.patch', d)} \
 "
 
-inherit pkgconfig cmake meson systemd
+inherit pkgconfig cmake meson systemd overlayfs
 
 do_install:append() {
     install -D ${WORKDIR}/bluechi-controller.conf ${D}/etc/bluechi/controller.conf.d/00-default.conf
