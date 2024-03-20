@@ -17,7 +17,7 @@ $ kas shell kas/qemux86_64.yml
 $ runqemu qemux86 nographic
 ```
 
-You login using "root" as username (no password).
+You can login using "root" as username (no password).
 
 ## License
 
