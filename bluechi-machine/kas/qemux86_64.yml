@@ -19,7 +19,7 @@ local_conf_header:
 repos:
   poky: 
     url: https://git.yoctoproject.org/git/poky
-    branch: nanbield
+    branch: master
     path: layers/poky
     layers:
       meta:
@@ -27,7 +27,7 @@ repos:
       meta-yocto-bsp:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    branch: nanbield
+    branch: master
     path: layers/meta-openembedded
     layers:
       meta-oe:
@@ -36,11 +36,11 @@ repos:
       meta-networking: 
   meta-virtualization:
     url: git://git.yoctoproject.org/meta-virtualization
-    branch: nanbield
+    branch: master
     path: layers/meta-virtualization
   meta-bluechi:
-    url: https://github.com/eclipse-bluechi/bluechi-on-yocto.git
-    branch: main
-    path: layers/bluechi-on-yocto
+    # url: https://github.com/eclipse-bluechi/bluechi-on-yocto.git
+    # branch: main
+    path: ../
     layers:
       meta-bluechi:

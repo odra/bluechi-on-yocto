@@ -12,5 +12,4 @@ IMAGE_INSTALL += "\
     meson \
     ninja \
     bluechi \
-    podman \
 "
