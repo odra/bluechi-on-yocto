@@ -30,10 +30,10 @@ SRC_URI += "file://bluechi-agent.conf"
 inherit pkgconfig cmake meson systemd overlayfs
 
 do_install:append() {
-    CFG_DIR=${WORKDIR}
-
-    if [ !-f ${WORKDIR}/bluechi-controller.conf  || ! -f ${WORKDIR}/bluechi-agent.conf ]; then
+    if [ ! -d ${WORKDIR}/sources-unpack ]; then
         CFG_DIR=${WORKDIR}/sources-unpack
+    else
+        CFG_DIR=${WORKDIR}
     fi
 
     install -D ${CFG_DIR}/bluechi-controller.conf ${D}/etc/bluechi/controller.conf.d/00-default.conf
