@@ -30,7 +30,7 @@ SRC_URI += "file://bluechi-agent.conf"
 inherit pkgconfig cmake meson systemd overlayfs
 
 do_install:append() {
-    if [ ! -d ${WORKDIR}/sources-unpack ]; then
+    if [ -d ${WORKDIR}/sources-unpack ]; then
         CFG_DIR=${WORKDIR}/sources-unpack
     else
         CFG_DIR=${WORKDIR}
