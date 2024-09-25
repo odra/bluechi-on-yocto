@@ -1,0 +1,5 @@
+header:
+  version: 14
+  includes:
+    - bluechi-machine/kas/base.yml
+machine: qemux86-64

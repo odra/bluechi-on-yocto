@@ -1,6 +1,6 @@
 header:
-  version: 12
-machine: qemux86-64
+  version: 14
+machine: generic
 local_conf_header:
   default: | 
     INHERIT += "extrausers"
