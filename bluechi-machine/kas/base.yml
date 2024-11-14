@@ -16,6 +16,8 @@ local_conf_header:
     VIRTUAL-RUNTIME_init_manager = "systemd"
     VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
     IMAGE_INSTALL:append = " podman bluechi"
+    PV:pn-go = "1.20.10"
+    PV:pn-podman = "4.8.3"
 repos:
   poky: 
     url: https://git.yoctoproject.org/git/poky
@@ -25,6 +27,10 @@ repos:
       meta:
       meta-poky:
       meta-yocto-bsp:
+    patches:
+      p1:
+        repo : poky
+        path : ../../patches/0001-enable-go-1.20.10.patch
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     branch: kirkstone
@@ -38,6 +44,10 @@ repos:
     url: git://git.yoctoproject.org/meta-virtualization
     branch: kirkstone
     path: layers/meta-virtualization
+    patches:
+      p1:
+        repo: meta-virtualization
+        path: ../../patches/0001-enable-podman-4.8.patch
   meta-bluechi:
     # url: https://github.com/eclipse-bluechi/bluechi-on-yocto.git
     # branch: main

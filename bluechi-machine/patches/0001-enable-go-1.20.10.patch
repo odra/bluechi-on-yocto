@@ -1,0 +1,107 @@
+From e7f0d08a6f8eb0536e632b53d822b46873f676ff Mon Sep 17 00:00:00 2001
+From: Leonardo Rossetti <lrossett@redhat.com>
+Date: Thu, 14 Nov 2024 10:49:59 -0300
+Subject: [PATCH] enable go 1.20.10
+
+Signed-off-by: Leonardo Rossetti <lrossett@redhat.com>
+---
+ meta/recipes-devtools/go/go-1.20.10.inc | 63 +++++++++++++++++++++++++
+ meta/recipes-devtools/go/go_1.20.10.bb  | 16 +++++++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.20.10.inc
+ create mode 100644 meta/recipes-devtools/go/go_1.20.10.bb
+
+diff --git a/meta/recipes-devtools/go/go-1.20.10.inc b/meta/recipes-devtools/go/go-1.20.10.inc
+new file mode 100644
+index 0000000000..e339893fb6
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.20.10.inc
+@@ -0,0 +1,63 @@
++require go-common.inc
++
++FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.20:${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b97a012949927931feb7793eee5ed924"
++
++SRC_URI += "\
++    file://0001-allow-CC-and-CXX-to-have-multiple-words.patch \
++    file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch \
++    file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
++    file://0004-ld-add-soname-to-shareable-objects.patch \
++    file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
++    file://0006-cmd-dist-separate-host-and-target-builds.patch \
++    file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
++    file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
++    file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
++    file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
++    file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
++    file://0010-net-Fix-issue-with-DNS-not-being-updated.patch  \
++    file://CVE-2022-27664.patch \
++    file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch \
++    file://CVE-2022-41715.patch \
++    file://CVE-2022-41717.patch \
++    file://CVE-2022-2879.patch \
++    file://CVE-2022-41720.patch \
++    file://CVE-2022-41723.patch \
++    file://cve-2022-41724.patch \
++    file://add_godebug.patch \
++    file://cve-2022-41725.patch \
++    file://CVE-2022-41722.patch \
++    file://CVE-2023-24537.patch \
++    file://CVE-2023-24534.patch \
++    file://CVE-2023-24538_1.patch \
++    file://CVE-2023-24538_2.patch \
++    file://CVE-2023-24540.patch \
++    file://CVE-2023-24539.patch \
++    file://CVE-2023-29404.patch \
++    file://CVE-2023-29405.patch \
++    file://CVE-2023-29402.patch \
++    file://CVE-2023-29400.patch \
++    file://CVE-2023-29406-1.patch \
++    file://CVE-2023-29406-2.patch \
++    file://CVE-2023-24536_1.patch \
++    file://CVE-2023-24536_2.patch \
++    file://CVE-2023-24536_3.patch \
++    file://CVE-2023-29409.patch \
++    file://CVE-2023-39319.patch \
++    file://CVE-2023-39326.patch \
++    file://CVE-2023-45285.patch \
++    file://CVE-2023-45287.patch \
++    file://CVE-2024-24784.patch \
++    file://CVE-2024-24785.patch \
++    file://CVE-2023-45288.patch \
++"
++SRC_URI[main.sha256sum] = "8042fd87f37a725e34407994c9a11aaf95f5af45"
++
++# Upstream don't believe it is a signifiant real world issue and will only
++# fix in 1.17 onwards where we can drop this.
++# https://github.com/golang/go/issues/30999#issuecomment-910470358
++CVE_CHECK_IGNORE += "CVE-2021-29923"
++
++# This are specific to Microsoft Windows
++CVE_CHECK_IGNORE += "CVE-2022-41716 CVE-2023-45283 CVE-2023-45284"
+diff --git a/meta/recipes-devtools/go/go_1.20.10.bb b/meta/recipes-devtools/go/go_1.20.10.bb
+new file mode 100644
+index 0000000000..deee7d8843
+--- /dev/null
++++ b/meta/recipes-devtools/go/go_1.20.10.bb
+@@ -0,0 +1,16 @@
++require go-${PV}.inc
++require go-target.inc
++
++inherit linuxloader
++
++export GO_LDSO = "${@get_linuxloader(d)}"
++export CC_FOR_TARGET = "gcc"
++export CXX_FOR_TARGET = "g++"
++export CGO_LDFLAGS:append = " -no-pie"
++
++# mips/rv64 doesn't support -buildmode=pie, so skip the QA checking for mips/riscv32 and its
++# variants.
++python() {
++    if 'mips' in d.getVar('TARGET_ARCH') or 'riscv32' in d.getVar('TARGET_ARCH'):
++        d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
++}
+-- 
+2.47.0
+

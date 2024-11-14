@@ -1,0 +1,58 @@
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index 09bf8270..65ab19ee 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -11,18 +11,15 @@ REQUIRED_DISTRO_FEATURES ?= "seccomp ipv6"
+ 
+ DEPENDS = " \
+     go-metalinter-native \
+-    go-md2man-native \
+     gpgme \
+     libseccomp \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
++    gettext-native \
+ "
+ 
+-SRCREV = "717edd7b844dcd66468f5d991991d87e9fc14c12"
++SRCREV = "5f398c70c9978321e639dfddfaefca985b4407c4"
+ SRC_URI = " \
+-    git://github.com/containers/libpod.git;branch=v4.0;protocol=https \
+-    file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import \
+-    file://0002-Define-ActKillThread-equal-to-ActKill.patch;patchdir=src/import/vendor/github.com/seccomp/libseccomp-golang \
+-    file://CVE-2022-27649.patch;patchdir=src/import \
++    git://github.com/containers/libpod.git;branch=v4.8;protocol=https \
+     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
+ "
+ 
+@@ -33,7 +30,7 @@ GO_IMPORT = "import"
+ 
+ S = "${WORKDIR}/git"
+ 
+-PV = "4.0.1+git${SRCPV}"
++PV = "4.8.3+git${SRCPV}"
+ 
+ PACKAGES =+ "${PN}-contrib"
+ 
+@@ -85,7 +82,10 @@ do_compile() {
+ 	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+ 	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+ 
+-	oe_runmake BUILDTAGS="${BUILDTAGS}"
++    export NATIVE_GOOS=${BUILD_GOOS}
++	export NATIVE_GOARCH=${BUILD_GOARCH}
++
++	oe_runmake NATIVE_GOOS=${BUILD_GOOS} NATIVE_GOARCH=${BUILD_GOARCH} BUILDTAGS="${BUILDTAGS}"
+ }
+ 
+ do_install() {
+@@ -112,8 +112,10 @@ do_install() {
+ 
+ FILES:${PN} += " \
+     ${systemd_unitdir}/system/* \
++    ${nonarch_libdir}/systemd/* \
+     ${systemd_unitdir}/user/* \
+     ${nonarch_libdir}/tmpfiles.d/* \
++    ${datadir}/user-tmpfiles.d/* \
+     ${sysconfdir}/cni \
+ "
+ 
