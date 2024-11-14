@@ -8,10 +8,10 @@ Dependencies
 ============
 
   URI: git://git.yoctoproject.org/meta-virtualization
-  branch: styhead
+  branch: kirkstone
 
   URI: git://git.openembedded.org/openembedded-core
-  branch: styhead
+  branch: kirksone
 
 Patches
 =======
