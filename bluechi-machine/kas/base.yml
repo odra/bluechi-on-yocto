@@ -16,7 +16,15 @@ local_conf_header:
     VIRTUAL-RUNTIME_init_manager = "systemd"
     VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
     IMAGE_INSTALL:append = " podman bluechi"
+    GOVERSION = "1.20.10"
     PV:pn-go = "1.20.10"
+    PV:pn-go-binary-native = "1.20.10"
+    PV:pn-go-cross = "1.20.10"
+    PV:pn-go-cross-canadian = "1.20.10"
+    PV:pn-go-crosssdk = "1.20.10"
+    PV:pn-go-native = "1.20.10"
+    PV:pn-go-runtime = "1.20.10"
+    
     PV:pn-podman = "4.8.3"
 repos:
   poky: 
@@ -47,7 +55,7 @@ repos:
     patches:
       p1:
         repo: meta-virtualization
-        path: ../../patches/0001-enable-podman-4.8.patch
+        path: ../../patches/0001-enable-podman-4.8.3.patch
   meta-bluechi:
     # url: https://github.com/eclipse-bluechi/bluechi-on-yocto.git
     # branch: main
