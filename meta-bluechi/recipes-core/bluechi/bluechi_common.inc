@@ -10,8 +10,6 @@ DEPENDS = " \
 
 SRC_URI:append = " file://bluechi-controller.conf file://bluechi-agent.conf file://bluechi-run-dir.conf"
 
-S = "${WORKDIR}/git"
-
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = " bluechi-controller.service bluechi-agent.service"
 
